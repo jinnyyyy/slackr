@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Slackr</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- You can add your styles and scripts here -->
+  <link rel="stylesheet" type="text/css" media="screen" href="styles/provided.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <script type="module" src="src/helpers.js"></script>
+</head>
+
+<body style="display: flex; flex-direction: column; align-items: center; background-color: beige;">
+  <!-- This is an example app structure, you can modify this as much as you choose -->
+  <header class="banner" style="margin-top: 120px;">
+    <h1>Slackr</h1>
+  </header>
+  <main role="main">
+    <!-- app goes here -->
+
+    <!-- The Modal -->
+  <div id="myModal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-custom-content">
+      <span class="close">&times;</span>
+      <p id="modal-txt">Some text in the Modal..</p>
+  </div>
+  
+  <!-- dashboard -->
+  </div>
+    <div id="page-dashboard" class="page-block">
+      <div id="welcome" class="welcome-text">
+        <p style="font-size: 30px;">Dashboard</p>
+        <p class="italic-only" style="font-size: 25px;">welcome! Enjoy connections around the world🌍<br></p>
+        <button type="button" id="view-profile-btn" class="btn btn-info btn-lg">view profile</button>
+        <button type="button" id="channel-submit" class="btn btn-outline-success btn-lg">create channels!</button>
+        <button type="button" id="logout" class="btn btn-outline-danger btn-lg">Logout</button>
+      </div>
+      <hr>
+      <div  id="channel-list" class="flex-row">
+        <div style='margin-right: 300px;'>
+          <h4 class="header">Public Channels 🌎</h4>
+          <div id="public-ch-list" class="display-ch-container">
+            <!-- lists go here -->
+          </div>
+        </div>
+
+        <div style='margin-right: 300px;'>
+          <h4 class="header">Private Channels 🔒</h4>
+          <div id="private-ch-list" class="display-ch-container">
+            <!-- lists go here -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- channel -->
+    <div id="page-channel" class="page-block" style="margin-left: 20px;">
+      <h3 class="italic-only">Start your own community! 👀 <br></h3>
+
+      <div class="input-group mb-3">
+        <label for="channel-name" class="input-group-text">Channel Name</label>
+        <div class="col-1">
+          <input id="channel-name" type="text" class="form-control">
+        </div>
+      </div>
+      
+      <div class="input-group mb-3">
+        <label for="channel-description" class="input-group-text">Description (optional)</label>
+        <div class="col-1">
+          <input id="channel-description" type="text" class="form-control">
+        </div>
+      </div>
+      
+      <div class="input-group mb-3">
+        <label for="channel-privacy" class="input-group-text">Channel Type</label>
+        <div class="col-1">
+          <select id="channel-privacy" class="form-select">
+            <option value="public">Public</option>
+            <option value="private">Private</option>
+          </select>
+        </div>
+      </div>
+      <button type="button" id="create-channel-button" class="btn btn-outline-success btn-lg">Create Channel</button>
+      
+      <button type="button" id="back-to-dashboard-from-create-ch" class="btn btn-outline-danger btn-lg">Cancel</button>
+    </div> 
+
+    <!-- single channel screen -->
+    <div id="page-singleChannel" class="page-block">
+      <div>
+        <button type="button" id="back-to-dashboard" class="btn btn-danger btn-lg" style="margin-bottom: 10px;">back to dashboard</button>
+      </div>
+      <div>
+        <button type="button" id="inv-btn" class="btn btn-warning btn-lg" style="margin-bottom: 10px;" data-bs-toggle="modal" data-bs-target="#exampleModal">Invite people (goes back to dashboard upon clicking invite)</button>
+      </div>
+      <hr style="margin-bottom: 40px;">
+      <div style="display: flex">
+        <div style="flex: 1;">
+          <div id="channel-info">
+            <div> 
+            <h4 class="header">Channel Name</h4>
+            <p id="ch-info-name" class="sub-content">User-Created Channel Name</p>
+            <form class="change-button-text">
+            wanna change? -> <input id="edit-ch-name" placeholder= 'enter here' type="text"/><br />
+            <button type="button" id="edit-ch-name-button" class="btn btn btn-outline-secondary btn-sm change-button-style">Change!</button>
+            </form>
+            </div>
+            
+            <div>
+            <h4 class="header">Description</h4>
+            <p id="ch-info-desc" class="sub-content">User-Created Channel Description</p>
+            <form class="change-button-text">
+            wanna change? -> <input id="edit-ch-desc" placeholder= 'enter here' type="text"/><br />
+            <button type="button" id="edit-ch-desc-button" class="btn btn btn-outline-secondary btn-sm change-button-style">Change!</button>
+            </form>
+            </div>
+        
+            <div>
+            <h4 class="header">Privacy</h4>
+            <p id="ch-info-priv" class="sub-content">Public/Private</p>
+            </div>
+        
+            <div>
+            <h4 class="header">Creation Timestamp</h4>
+            <p id="ch-info-timestamp" class="sub-content">Timestamp Goes Here</p>
+            </div>
+        
+            <div>
+              <h4 class="header">Channel Creator</h4>
+              <p id="ch-info-creator" class="sub-content">Creator Name Goes Here</p>
+            </div>
+          </div>  
+        </div>
+
+        <div style="flex: 1;">
+          <div id="msg-parent-container">
+            <div id="display-msg" class="display-msg-container">
+                <!-- messages will be displayed here -->
+            </div>
+            <div>
+              <form id="message-input">
+                <input required type="text" id="ch-msg-input" style="width: 70%;  margin-top: 20px;" placeholder="Enter">
+                <button type="submit" id="send-btn" class="btn btn-success btn-lg">Send</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div style="flex: 1;">
+          <div>
+            <h4 class="header">Pinned Messages</h4>
+            <p id="ch-pinned-msg" class="sub-content pin-container-width display-msg-container"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Invite People </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="inv-ppl" style="display: flex; flex-direction: column;">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="inv-ppl-btn">Invite</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- profile -->
+    <div id="page-profile" class="page-block">
+      <button type="button" id="back-to-dashboard-from-profile" class="btn btn-outline-danger btn-lg margin-bottom" style="margin-left: 20px;">back to dashboard</button>
+      
+      <div style="margin-left: 25px; margin-bottom: 25px;">
+        <h4 class="header">profile picture</h4>
+        <img id="profile-pic" style="width: 300px; height: 300px;"></img>
+        <div class="hide-details" class="mb-3 col-1">
+          <input class="form-control" type="file" id="edit-profile-pic" class="margin-top">
+          <button type="button" id="edit-profile-pic-button" class="btn btn btn-outline-secondary btn-sm margin-topbottom">change!</button>
+        </div>
+      </div>
+
+      <div id = "profileName" style="margin-left: 25px; margin-bottom: 25px;">
+        <h4 class="header">name</h4>
+        <p id="profile-name" class="sub-content">name Goes Here</p>
+        <form class="hide-details change-button-text">
+          wanna change? -> <input id="edit-profile-name" placeholder= 'enter here' type="text"/><br />
+          <button type="button" id="edit-profile-name-button"  class="btn btn btn-outline-secondary btn-sm margin-bottom">change!</button>
+        </form>
+      </div>
+
+      <div id = "profileBio" style="margin-left: 25px; margin-bottom: 25px;">
+        <h4 class="header">bio</h4>
+        <p id="profile-bio" class="sub-content">bio goes here</p>
+        <form class="hide-details change-button-text">
+          wanna change? -> <input id="edit-profile-bio" placeholder= 'enter here' type="text"/><br />
+          <button type="button" id="edit-profile-bio-button" class="btn btn btn-outline-secondary btn-sm margin-bottom">change!</button>
+        </form>
+      </div>
+
+      <div id = "profileEmail" style="margin-left: 25px; margin-bottom: 25px;">
+        <h4 class="header">email</h4>
+        <p id="profile-email" class="sub-content">email Goes Here</p>
+        <form class="hide-details change-button-text">
+          wanna change? -> <input id="edit-profile-email" placeholder= 'enter here' type="text"/><br />
+          <button type="button" id="edit-profile-email-button" class="btn btn btn-outline-secondary btn-sm margin-bottom">change!</button>
+        </form>
+      </div>
+
+      <div class="hide-details" style="margin-left: 25px; margin-bottom: 25px;">
+        <h4 class="header">password</h4>
+        <p class="sub-content"></p>
+        Password: <input type="password" id="myInput"><br><br>
+        <input type="checkbox" id="showpwd">Show Password<br>
+        <form class="change-button-text">
+        <button type="button" id="edit-profile-pw-button" class="btn btn btn-outline-secondary btn-sm margin-bottom">change!</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- register -->
+    <div id="page-register" class="page-block div-full-width">
+      <div class="flex-wrapper">
+        <img src="./src/defaultprofilepic.png" alt="logo" style="margin-top: 145px; margin-bottom: 20px; border-radius: 10px;">
+        <h3 style="margin-bottom: 40px; font-size: 35px; margin-top: 50px; font-style: italic;">Register</h3>
+        <form class="flex-wrapper form-width round-border round-border-padding" style="margin-bottom: 30px">
+          <div class="input-group input-group-lg mb-3">
+            <span class="input-group-text">email</span>
+            <input id="register-email" type="email" class="form-control" placeholder="enter email"/>
+          </div>
+          
+          <div class="input-group input-group-lg mb-3">
+            <span class="input-group-text">name</span>
+            <input id="register-name" type="text" class="form-control" placeholder="enter name"/>
+          </div>
+          
+          <div class="input-group input-group-lg mb-3">
+            <span class="input-group-text">password</span>
+            <input id="register-password" type="password" class="form-control" placeholder="enter password"/>
+          </div>
+          
+          <div class="input-group input-group-lg mb-3">
+            <span class="input-group-text">password(confirm)</span>
+            <input id="register-password-confirm" type="password" class="form-control" placeholder="confirm password"/>
+          </div>
+          <button type="button" class="btn btn-primary reg-btn" id="register-submit" style="margin-top: 15px">Submit</button>
+        </form>
+          Already registered?
+        <a href="#" class="redirect" redirect="login" style="margin-bottom: 15px; font-size: 20px;">Login</a> 
+      </div>
+    </div>
+
+    <!-- login -->
+    <div id="page-login" class="page-block div-full-width">
+      <div class="flex-wrapper">  
+        <img src="./src/defaultprofilepic.png" alt="logo" style="margin-top: 110px; margin-bottom: 20px; border-radius: 10px;">
+        <h3 style="margin-bottom: 40px; font-size: 35px; font-style: italic;">Login</h3>
+          <form class="flex-wrapper form-width round-border round-border-padding" style="margin-bottom: 50px;">
+            <div class="input-group input-group-lg mb-3">
+              <span class="input-group-text">Email</span>
+              <input id="login-email" type="email" class="form-control" placeholder="enter email" />
+            </div>
+            
+            <div class="input-group input-group-lg mb-3">
+              <span class="input-group-text">Password</span>
+              <input id="login-password" type="password" class="form-control" placeholder="enter password" />
+            </div>
+            <button type="button" class="btn btn-primary" id="login-submit" style="margin-top: 15px;">Submit</button>
+        </form>
+        Not yet a member? <a href="#" class="redirect" redirect="register" style="font-size: 20px; margin-bottom: 35px;">Register</a> 
+      </div> 
+    </div>
+      
+    </div>
+  </main>
+  <footer>
+    <p class="page-footer">&copy; Slackr</p>
+  </footer>
+  <script type="module" src="src/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+
+</html>
